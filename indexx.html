@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Estoque</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        input, button {
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .confirmacao-venda {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            display: none;
+            font-size: 1.2em;
+        }
+
+        .vendas-lista td, .vendas-lista th {
+            text-align: left;
+        }
+
+        .vendas-lista th {
+            width: 25%;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+                padding: 10px;
+            }
+            table, th, td {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<CENTER><div class="container">
+        <h2>Cadastrar Produto</h2>
+        <input type="text" id="nome" placeholder="Nome">
+        <input type="text" id="tipo" placeholder="Tipo">
+        <input type="number" id="custo" placeholder="Custo">
+        <input type="number" id="venda" placeholder="Venda">
+        <input type="number" id="quantidade" placeholder="Quantidade">
+        <button onclick="salvarProduto()">Salvar Produto</button>
+
+        <h2>Produtos Adicionados</h2>
+        <input type="text" id="pesquisa" placeholder="Buscar produto..." oninput="filtrarProdutos()">
+        <table id="tabela-produtos">
+            <tr>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>Custo</th>
+                <th>Venda</th>
+                <th>Quant</th>
+                <th>Ação</th>
+            </tr>
+        </table></CENTER>
+
+<center><h2>Realizar Venda</h2>
+        <input type="text" id="buscarProduto" placeholder="Buscar produto..." oninput="filtrarProdutosVenda()">
+        <button onclick="adicionarAoCarrinho()">Adicionar</button>
+        <p id="carrinho"></p>
+        <p>Total: R$ <span id="total">0</span></p></center>
+      <center> <button onclick="finalizarCompra()">Finalizar Compra</button> </center>
+      <center>
+        <button onclick="limparCarrinho()">Limpar Carrinho</button>
+    </center>
+    
+        <div id="confirmacao" class="confirmacao-venda">Venda realizada com sucesso!</div>
+
+        <div class="box">
+            <h2>Vendas Realizadas</h2>
+            <table class="vendas-lista">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                        <th>Total</th>
+                        <th>Data e Hora</th>
+                    </tr>
+                </thead>
+                <tbody id="vendas-lista"></tbody>
+            </table>
+            <p>Total de lucro: R$ <span id="totalLucro">0</span></p>
+            <p>Total de produtos vendidos: <span id="totalProdutosVendidos">0</span></p>
+        </div>
+
+        <a href="Fechar_caixa.html"><center><button onclick="fecharCaixa()">Terminar Caixa</button></center></a>
+    </div>
+
+    <script>
+        let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+        let carrinho = [];
+        let total = 0;
+    
+        function salvarProduto() {
+            let nome = document.getElementById("nome").value;
+            let tipo = document.getElementById("tipo").value;
+            let custo = parseFloat(document.getElementById("custo").value);
+            let venda = parseFloat(document.getElementById("venda").value);
+            let quantidade = parseInt(document.getElementById("quantidade").value);
+    
+            let produto = { nome, tipo, custo, venda, quantidade };
+            produtos.push(produto);
+            localStorage.setItem('produtos', JSON.stringify(produtos));
+            atualizarTabela();
+        }
+    
+        function atualizarTabela() {
+            let tabela = document.getElementById("tabela-produtos");
+            tabela.innerHTML = "<tr><th>Nome</th><th>Tipo</th><th>Custo</th><th>Venda</th><th>Quant</th><th>Ação</th></tr>";
+            produtos.forEach((produto, index) => {
+                let row = tabela.insertRow();
+                row.insertCell(0).innerText = produto.nome;
+                row.insertCell(1).innerText = produto.tipo;
+                row.insertCell(2).innerHTML = "<input type='number' value='" + produto.custo + "' onchange='editarProduto(" + index + ", \"custo\", this.value)'>";
+                row.insertCell(3).innerHTML = "<input type='number' value='" + produto.venda + "' onchange='editarProduto(" + index + ", \"venda\", this.value)'>";
+                row.insertCell(4).innerHTML = "<input type='number' value='" + produto.quantidade + "' onchange='editarProduto(" + index + ", \"quantidade\", this.value)'>";
+                row.insertCell(5).innerHTML = "<button onclick='excluirProduto(" + index + ")'>Excluir</button>";
+            });
+        }
+    
+        function editarProduto(index, campo, valor) {
+            produtos[index][campo] = parseFloat(valor);
+            localStorage.setItem('produtos', JSON.stringify(produtos));
+        }
+    
+        function excluirProduto(index) {
+            produtos.splice(index, 1);
+            localStorage.setItem('produtos', JSON.stringify(produtos));
+            atualizarTabela();
+        }
+    
+        function filtrarProdutos() {
+            let termo = document.getElementById("pesquisa").value.toLowerCase();
+            let linhas = document.querySelectorAll("#tabela-produtos tr");
+            linhas.forEach((linha, index) => {
+                if (index === 0) return;
+                let nome = linha.cells[0].innerText.toLowerCase();
+                linha.style.display = nome.includes(termo) ? "" : "none";
+            });
+        }
+    
+        function filtrarProdutosVenda() {
+            let termo = document.getElementById("buscarProduto").value.toLowerCase();
+            let resultadoBusca = produtos.filter(produto => produto.nome.toLowerCase().includes(termo));
+    
+            let tabelaProdutosVenda = document.getElementById("carrinho");
+            tabelaProdutosVenda.innerHTML = '';
+            resultadoBusca.forEach(produto => {
+                tabelaProdutosVenda.innerHTML += produto.nome + " - R$ " + produto.venda.toFixed(2) + "<br>";
+            });
+        }
+    
+        function adicionarAoCarrinho() {
+            let nomeProduto = document.getElementById("buscarProduto").value;
+            let produto = produtos.find(p => p.nome.toLowerCase().includes(nomeProduto.toLowerCase()));
+            if (produto && produto.quantidade > 0) {
+                produto.quantidade--;
+                carrinho.push(produto);
+                total += produto.venda;
+                document.getElementById("carrinho").innerText += produto.nome + " - R$ " + produto.venda.toFixed(2) + "\n";
+                document.getElementById("total").innerText = total.toFixed(2);
+                localStorage.setItem('produtos', JSON.stringify(produtos));
+                atualizarTabela();
+            }
+        }
+    
+        function finalizarCompra() {
+            let vendasLista = document.getElementById("vendas-lista");
+            let totalLucro = parseFloat(document.getElementById("totalLucro").innerText) || 0;
+            let totalProdutosVendidos = parseInt(document.getElementById("totalProdutosVendidos").innerText) || 0;
+    
+            let dataHora = new Date().toLocaleString();
+    
+            carrinho.forEach(item => {
+                let lucro = item.venda - item.custo;
+                totalLucro += lucro;
+                totalProdutosVendidos++;
+    
+                let row = vendasLista.insertRow();
+                row.insertCell(0).innerText = item.nome;
+                row.insertCell(1).innerText = 1;
+                row.insertCell(2).innerText = "R$ " + item.venda.toFixed(2);
+                row.insertCell(3).innerText = dataHora;
+            });
+    
+            document.getElementById("totalLucro").innerText = totalLucro.toFixed(2);
+            document.getElementById("totalProdutosVendidos").innerText = totalProdutosVendidos;
+    
+            carrinho = [];
+            total = 0;
+            document.getElementById("carrinho").innerText = "";
+            document.getElementById("total").innerText = "0";
+    
+            let confirmacao = document.getElementById("confirmacao");
+            confirmacao.style.display = "block";
+            setTimeout(() => confirmacao.style.display = "none", 3000);
+        }
+    
+        function fecharCaixa() {
+            let totalLucro = parseFloat(document.getElementById("totalLucro").innerText);
+            let totalProdutosVendidos = parseInt(document.getElementById("totalProdutosVendidos").innerText);
+            alert("Fechamento de Caixa\nLucro total: R$ " + totalLucro.toFixed(2) + "\nTotal de produtos vendidos: " + totalProdutosVendidos);
+        }
+    
+        // Função para limpar o carrinho
+        function limparCarrinho() {
+            carrinho = [];
+            total = 0;
+            document.getElementById("carrinho").innerText = "";
+            document.getElementById("total").innerText = "0";
+        }
+    
+        atualizarTabela();
+    </script>
+    
+</body>
+</html>
