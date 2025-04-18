@@ -19,10 +19,9 @@ Responsive and user-friendly interface
 
 🔗 Access the Project
 
-GitHub Repository
+link [https://managerecommerce.netlify.app/]
 
 ⚙️ Technologies Used
 
 HTML, CSS, JavaScript
 
-Node.js and SQL (it doesn't have Node.js and SQL yet)
