@@ -1,0 +1,591 @@
+/* Estilos Gerais e Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.3s ease;
+}
+
+:root {
+  --primary-color: #4CAF50;
+  --secondary-color: #2196F3;
+  --warning-color: #FF9800;
+  --danger-color: #F44336;
+  --dark-color: #333;
+  --light-color: #f4f4f4;
+  --success-bg: rgba(76, 175, 80, 0.2);
+  --error-bg: rgba(244, 67, 54, 0.2);
+  --info-bg: rgba(33, 150, 243, 0.2);
+  --border-radius: 8px;
+  --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+body {
+  background-color: #f9f9f9;
+  background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background-attachment: fixed;
+  color: var(--dark-color);
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cabeçalhos */
+h2 {
+  color: var(--primary-color);
+  margin: 20px 0;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 500;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 10px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 40%;
+  height: 2px;
+  background-color: var(--secondary-color);
+  animation: slideWidth 1.5s infinite alternate;
+}
+
+@keyframes slideWidth {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Inputs & Botões */
+input[type="text"],
+input[type="number"],
+input[type="search"] {
+  width: 100%;
+  padding: 12px 15px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
+}
+
+button {
+  padding: 10px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.botao-verde {
+  background-color: var(--primary-color);
+}
+
+.btn-excluir {
+  background-color: var(--danger-color);
+  padding: 6px 12px;
+  font-size: 0.9rem;
+}
+
+.btn-editar {
+  background-color: var(--secondary-color);
+  padding: 6px 12px;
+  font-size: 0.9rem;
+}
+
+.btn-cancelar {
+  background-color: var(--warning-color);
+}
+
+.btn-quantidade {
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 5px;
+}
+
+.btn-remover {
+  background-color: var(--danger-color);
+  padding: 5px 10px;
+  font-size: 0.8rem;
+}
+
+.botao-perigo {
+  background-color: var(--danger-color);
+}
+
+/* Tabelas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
+tr:hover {
+  background-color: #eaeaea;
+}
+
+/* Animações de linha */
+.fade-in {
+  animation: fadeIn 0.5s forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.3s forwards;
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; transform: translateX(30px); }
+}
+
+.highlight {
+  animation: highlight 1s ease;
+}
+
+@keyframes highlight {
+  0% { background-color: rgba(76, 175, 80, 0.3); }
+  100% { background-color: transparent; }
+}
+
+/* Carrinho */
+.carrinho-vazio, .no-results {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  padding: 15px;
+}
+
+.item-carrinho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #f9f9f9;
+  border-radius: var(--border-radius);
+  border-left: 4px solid var(--primary-color);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.item-removido {
+  animation: slideOut 0.3s ease forwards;
+}
+
+@keyframes slideOut {
+  to { opacity: 0; transform: translateX(20px); }
+}
+
+.item-nome {
+  font-weight: 500;
+  flex: 2;
+}
+
+.item-quantidade, .item-preco, .item-subtotal {
+  margin: 0 10px;
+  flex: 1;
+}
+
+/* Sugestões de produtos */
+.produto-sugestao {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 15px;
+  margin: 5px 0;
+  border-radius: var(--border-radius);
+  background-color: #f5f5f5;
+  border-left: 3px solid var(--secondary-color);
+  transition: all 0.2s;
+}
+
+.produto-sugestao:hover {
+  background-color: #e9f7fe;
+  transform: translateX(5px);
+}
+
+.btn-adicionar {
+  background-color: var(--secondary-color);
+  padding: 5px 10px;
+  font-size: 0.8rem;
+}
+
+/* Confirmação de venda */
+.confirmacao-venda {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: white;
+  padding: 15px 20px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  display: none;
+  align-items: center;
+  z-index: 1000;
+  max-width: 350px;
+  border-left: 5px solid var(--primary-color);
+  animation: slideInNotification 0.5s ease;
+}
+
+.confirmacao-venda.active {
+  display: flex;
+}
+
+.confirmacao-venda.erro {
+  border-left-color: var(--danger-color);
+}
+
+.confirmacao-venda.info {
+  border-left-color: var(--secondary-color);
+}
+
+.confirmacao-venda.aviso {
+  border-left-color: var(--warning-color);
+}
+
+@keyframes slideInNotification {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.icon-success, .icon-erro, .icon-aviso {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  font-size: 1.2rem;
+}
+
+.icon-success {
+  background-color: var(--success-bg);
+  color: var(--primary-color);
+}
+
+.icon-erro {
+  background-color: var(--error-bg);
+  color: var(--danger-color);
+}
+
+.icon-aviso {
+  background-color: var(--info-bg);
+  color: var(--warning-color);
+}
+
+/* Box de vendas e relatórios */
+.box {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 20px;
+  margin: 20px 0;
+  border-top: 5px solid var(--secondary-color);
+}
+
+.box h2 {
+  color: var(--secondary-color);
+  border-bottom-color: var(--secondary-color);
+}
+
+.box p {
+  margin: 10px 0;
+  font-weight: 500;
+}
+
+.vendas-lista {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: var(--border-radius);
+}
+
+/* Destaque para termos pesquisados */
+.destaque {
+  background-color: #FFEB3B;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+/* Responsividade */
+@media (min-width: 768px) {
+  .container {
+      padding: 30px;
+  }
+  
+  .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+  }
+  
+  table {
+      font-size: 1rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .form-grid {
+      grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .main-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .item-carrinho {
+      flex-direction: column;
+      align-items: flex-start;
+  }
+  
+  .item-nome, .item-quantidade, .item-preco, .item-subtotal {
+      margin: 5px 0;
+      width: 100%;
+  }
+  
+  table, thead, tbody, th, td, tr {
+      display: block;
+  }
+  
+  th {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+  }
+  
+  tr {
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+  }
+  
+  td {
+      border: none;
+      border-bottom: 1px solid #eee;
+      position: relative;
+      padding-left: 50%;
+  }
+  
+  td:before {
+      position: absolute;
+      left: 10px;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+      font-weight: bold;
+  }
+  
+  td:nth-of-type(1):before { content: "Nome"; }
+  td:nth-of-type(2):before { content: "Tipo"; }
+  td:nth-of-type(3):before { content: "Custo"; }
+  td:nth-of-type(4):before { content: "Venda"; }
+  td:nth-of-type(5):before { content: "Quant"; }
+  td:nth-of-type(6):before { content: "Ação"; }
+}
+
+/* Melhorias gerais de usabilidade */
+.form-container {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  margin-bottom: 20px;
+  border: 1px solid #eaeaea;
+}
+
+#pesquisa, #buscarProduto {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  padding-left: 40px;
+}
+
+/* Animações de hover para células da tabela */
+td {
+  transition: padding 0.2s;
+}
+
+td:hover {
+  padding-left: 20px;
+}
+
+/* Animação para botões de ação na tabela */
+.btn-excluir, .btn-editar {
+  opacity: 0.8;
+  transform: scale(0.95);
+}
+
+.btn-excluir:hover, .btn-editar:hover {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Animação para o box de vendas */
+.box {
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Efeito pulsante para finalizar compra */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+button[onclick="finalizarCompra()"] {
+  animation: pulse 2s infinite;
+}
+
+button[onclick="finalizarCompra()"]:hover {
+  animation: none;
+  transform: scale(1.05);
+}
+
+/* Loader para operações que exigem espera */
+.loader {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Melhorias para o carrinho */
+#carrinho {
+  max-height: 300px;
+  overflow-y: auto;
+  margin: 15px 0;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: var(--border-radius);
+}
+
+/* Estilo para os controles numéricos nos inputs */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Efeito de foco para linhas da tabela */
+tr:focus-within {
+  background-color: #e8f5e9;
+}
+
+/* Estilo para texto total */
+#total, #totalLucro, #totalProdutosVendidos {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+/* Customizar barra de rolagem */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}

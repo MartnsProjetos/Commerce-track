@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Sistema de Estoque</title>
+    
+</head>
+<body>
+<CENTER><div class="container">
+        <h2>Cadastrar Produto</h2>
+        <input type="text" id="nome" placeholder="Nome">
+        <input type="text" id="tipo" placeholder="Tipo">
+        <input type="number" id="custo" placeholder="Custo">
+        <input type="number" id="venda" placeholder="Venda">
+        <input type="number" id="quantidade" placeholder="Quantidade">
+    
+    
+    <button onclick="salvarProduto()" class="botao-verde">Salvar Produto</button>
+
+        <h2>Produtos Adicionados</h2>
+        <input type="text" id="pesquisa" placeholder="Buscar produto..." oninput="filtrarProdutos()">
+        <table id="tabela-produtos">
+            <tr>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>Custo</th>
+                <th>Venda</th>
+                <th>Quant</th>
+                <th>Ação</th>
+            </tr>
+        </table></CENTER>
+
+<center><h2>Realizar Venda</h2>
+        <input type="text" id="buscarProduto" placeholder="Buscar produto..." oninput="filtrarProdutosVenda()">
+        <button onclick="adicionarAoCarrinho()">Adicionar</button>
+        <p id="carrinho"></p>
+        <p>Total: R$ <span id="total">0</span></p></center>
+      <center> <button onclick="finalizarCompra()" style="background-color: green; color: white;">Finalizar Compra</button> </center>
+      <center>
+        <button onclick="limparCarrinho()"style="background-color: red; color: white;">Limpar Carrinho</button>
+    </center>
+    
+        <div id="confirmacao" class="confirmacao-venda">Venda realizada com sucesso!</div>
+
+        <div class="box">
+            <h2>Vendas Realizadas</h2>
+            <table class="vendas-lista">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                        <th>Total</th>
+                        <th>Data e Hora</th>
+                    </tr>
+                </thead>
+                <tbody id="vendas-lista"></tbody>
+            </table>
+            <p>Total de lucro: R$ <span id="totalLucro">0</span></p>
+            <p>Total de produtos vendidos: <span id="totalProdutosVendidos">0</span></p>
+        </div>
+
+        <center><button onclick="fecharCaixa()">Terminar Caixa</button></center>
+    </div>
+
+   <script src="script.js"></script>
+</body>
+</html>
